@@ -1,0 +1,115 @@
+#:kivy 2.1.0
+<HomeScreen>:
+	GridLayout:
+		cols: 1
+		GridLayout:
+			cols: 1
+			padding: 25, 25
+			spacing: 20, 20
+			Label:
+				text: "Gmail Account"
+			TextInput:
+			    id: email
+				hint_text: "Your email address"
+			TextInput:
+			    id: password
+			    password: True
+				hint_text: "Password"
+			RelativeLayout:
+                Button:
+                    size_hint: 0.3, 0.5
+                    pos_hint: {'center_x':0.5, 'center_y':0.5}
+                    text: "Login"
+                    on_press: root.login_check_screen(root.ids.email.text,root.ids.password.text)
+			Label:
+			    id: wrong_credentials
+			    text: ""
+		GridLayout:
+			cols: 2
+			size_hint: 0.2, 0.2
+			padding: 10, 10
+		    spacing: 20,
+			Button:
+				text: "Forgot Password"
+				background_color: "black"
+				color: "blue"
+				opacity: 1 if self.state == 'normal' else 0.4
+			Button:
+				text: "Sign up"
+				# calling sign_up function from LoginScreen class
+				on_press: root.sign_up()
+				background_color: "black"
+				color: "blue"
+				opacity: 1 if self.state == 'normal' else 0.4
+
+<SignUpScreen>:
+	GridLayout:
+		cols: 1
+		padding: 20, 20
+		spacing: 20, 20
+		Label:
+			text: "Sign up for your life"
+		Label:
+		    id: user_message
+		    text: ""
+		TextInput:
+		    id: uname
+			hint_text: "Username"
+		TextInput:
+		    id: pword
+		    password: True
+			hint_text: "Password"
+		Button:
+			text: "Sign Up"
+			on_press: root.sign_up_screen(root.ids.uname.text, root.ids.pword.text)
+		    background_color: (128,2,3,0.4)
+		Button:
+			text: "Back to Login"
+			on_press: root.home_screen()
+		    background_color: (126,2,4,0.4)
+
+<SignUpSuccessScreen>:
+    GridLayout:
+        cols: 1
+        Label:
+            text: "User sign up success"
+        Button:
+            text: "Log in"
+            on_press: root.go_to_login_screen()
+
+<LoginSuccessScreen>:
+    GridLayout:
+        cols: 1
+        padding: 30, 30
+        spacing: 30, 30
+        RelativeLayout:
+            ImageButton:
+                on_press: root.logout()
+                source: 'logout_hover.png' if self.hovered else 'logout_nothover.png'
+                size_hint: 0.3, 0.3
+                pos_hint: {"center_x": 0.9, "center_y": 0.8}
+        Label:
+            text: "How do you feel"
+        TextInput:
+            id: feeling
+            hint_text: "happy, sad, unloved ..."
+        ScrollView:
+            Label:
+                id: message
+                text: ""
+                text_size: self.width, None
+                height: self.texture_size[1]
+                size_hint_y: None
+        Button:
+            text: "Enlighten Me!"
+            on_press: root.quote(root.ids.feeling.text)
+
+<RootWidget>:
+	HomeScreen:
+		name: "home_screen"
+    SignUpScreen:
+        name: "sign_up_screen"
+    SignUpSuccessScreen:
+        name: "sign_up_success_screen"
+    LoginSuccessScreen:
+        name: "login_success_screen"
